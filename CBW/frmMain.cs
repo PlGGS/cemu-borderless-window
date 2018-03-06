@@ -35,14 +35,12 @@ namespace CBW
         bool borderlessWindow;
         bool showMenuStrip;
         string cemuDir;
-        string gameDir;
 
-        public frmMain(bool bw = false, bool sms = false, string cemu = "", string game = "")
+        public frmMain(bool bw = false, bool sms = false, string cemu = "")
         {
             borderlessWindow = bw;
             showMenuStrip = sms;
             cemuDir = cemu;
-            gameDir = game;
 
             InitializeComponent();
         }
@@ -154,7 +152,7 @@ namespace CBW
             {
                 if (cemuDir != "")
                 {
-                    Process.Start(cemuDir, "-g " + gameDir); //TODO fix gameDir bug
+                    Process.Start(cemuDir);
                     System.Threading.Thread.Sleep(1000);
                 }
                 if (checkIfProcessIsRunning("Cemu"))

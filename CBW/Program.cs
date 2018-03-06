@@ -20,7 +20,6 @@ namespace CBW
             bool borderlessWindow = false;
             bool showMenuStrip = false;
             string cemuDir = "";
-            string gameDir = "";
 
             if (args.Length % 2 == 0)
             {
@@ -40,12 +39,6 @@ namespace CBW
                         case "-c":
                             cemuDir = args[++i];
                             break;
-                        case "-game":
-                            gameDir = args[++i];
-                            break;
-                        case "-g":
-                            gameDir = args[++i];
-                            break;
                         default:
                             break;
                     }
@@ -57,7 +50,7 @@ namespace CBW
                 Application.Exit();
             }
 
-            Application.Run(new frmMain(borderlessWindow, showMenuStrip, cemuDir, gameDir));
+            Application.Run(new frmMain(borderlessWindow, showMenuStrip, cemuDir));
         }
     }
 }
