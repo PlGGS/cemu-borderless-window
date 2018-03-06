@@ -16,7 +16,48 @@ namespace CBW
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());
+
+            bool borderlessWindow = false;
+            bool showMenuStrip = false;
+            string cemuDir = "";
+            string gameDir = "";
+
+            if (args.Length % 2 == 0)
+            {
+                for (int i = 0; i < args.Length; i++)
+                {
+                    switch (args[i])
+                    {
+                        case "-bw":
+                            borderlessWindow = Convert.ToBoolean(args[++i]);
+                            break;
+                        case "-sms":
+                            showMenuStrip = Convert.ToBoolean(args[++i]);
+                            break;
+                        case "-cemu":
+                            cemuDir = args[++i];
+                            break;
+                        case "-c":
+                            cemuDir = args[++i];
+                            break;
+                        case "-game":
+                            gameDir = args[++i];
+                            break;
+                        case "-g":
+                            gameDir = args[++i];
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please make sure all command line parameters have proper values after their references. Please surround executable locations with quotation marks if they contain spaces.", "Cemu Borderless Window");
+                Application.Exit();
+            }
+
+            Application.Run(new frmMain(borderlessWindow, showMenuStrip, cemuDir, gameDir));
         }
     }
 }

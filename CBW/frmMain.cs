@@ -32,9 +32,18 @@ namespace CBW
         private const int wsMenuStrip = 19;
         Screen[] screens = Screen.AllScreens;
         private IntPtr window;
+        bool borderlessWindow;
+        bool showMenuStrip;
+        string cemuDir;
+        string gameDir;
 
-        public frmMain()
+        public frmMain(bool bw = false, bool sms = false, string cemu = "", string game = "")
         {
+            borderlessWindow = bw;
+            showMenuStrip = sms;
+            cemuDir = cemu;
+            gameDir = game;
+
             InitializeComponent();
         }
 
@@ -43,7 +52,7 @@ namespace CBW
             return Process.GetProcesses().Any(p => p.ProcessName.Contains(nameSubstring));
         }
 
-        public void setWindow()
+        public void SetWindow()
         {
             if (chkCBW.CheckState == CheckState.Checked)
             {
@@ -97,7 +106,7 @@ namespace CBW
         {
             if (checkIfProcessIsRunning("Cemu"))
             {
-                setWindow();
+                SetWindow();
             }
             else
             {
@@ -117,7 +126,7 @@ namespace CBW
         {
             if (checkIfProcessIsRunning("Cemu"))
             {
-                setWindow();
+                SetWindow();
             }
             else
             {
@@ -134,8 +143,8 @@ namespace CBW
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            Taskbar.Show();
             this.Icon = Properties.Resources.CBW;
+            Taskbar.Show();
 
             if (checkIfProcessIsRunning("Cemu"))
             {
@@ -143,8 +152,30 @@ namespace CBW
             }
             else
             {
-                MessageBox.Show("Please make sure Cemu is running before attempting to run CBW.", "Cemu Borderless Window");
-                Application.Exit();
+                if (cemuDir != "")
+                {
+                    Process.Start(cemuDir, "-g " + gameDir); //TODO fix gameDir bug
+                    System.Threading.Thread.Sleep(1000);
+                }
+                if (checkIfProcessIsRunning("Cemu"))
+                {
+                    window = Process.GetProcessesByName("Cemu")[0].MainWindowHandle;
+                }
+                else
+                {
+                    MessageBox.Show("Failed to start Cemu from specified locations. Please either make sure Cemu is already running or set its executable location as a command line parameter before attempting to run CBW.", "Cemu Borderless Window");
+                    Application.Exit();
+                }
+            }
+
+            if (borderlessWindow)
+            {
+                chkCBW.CheckState = CheckState.Checked;
+            }
+
+            if (showMenuStrip)
+            {
+                chkShowMenuStrip.CheckState = CheckState.Checked;
             }
         }
 
