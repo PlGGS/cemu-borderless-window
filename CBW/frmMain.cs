@@ -23,7 +23,7 @@ namespace CBW
         //Import window placement function
         [DllImport("user32.dll", EntryPoint = "SetWindowPos")]
         public static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int Y, int cx, int cy, int wFlags);
-
+        
         private const int gwlStyle = -16;
         private const int wsBorder = 0x00800000;
         private const int wsCaption = 0x00C00000;
@@ -143,6 +143,7 @@ namespace CBW
         {
             this.Icon = Properties.Resources.CBW;
             Taskbar.Show();
+            Process cemu;
 
             if (checkIfProcessIsRunning("Cemu"))
             {
@@ -152,11 +153,14 @@ namespace CBW
             {
                 if (cemuDir != "")
                 {
-                    Process.Start(cemuDir);
-                    System.Threading.Thread.Sleep(1000);
+                    cemu = Process.Start(cemuDir);
+                    cemu.WaitForInputIdle();
+                    window = cemu.MainWindowHandle;
+                    //System.Threading.Thread.Sleep(500);
                 }
                 if (checkIfProcessIsRunning("Cemu"))
                 {
+                    cemu = Process.GetProcessesByName("Cemu")[0];
                     window = Process.GetProcessesByName("Cemu")[0].MainWindowHandle;
                 }
                 else
@@ -169,6 +173,7 @@ namespace CBW
             if (borderlessWindow)
             {
                 chkCBW.CheckState = CheckState.Checked;
+                this.WindowState = FormWindowState.Minimized;
             }
 
             if (showMenuStrip)
