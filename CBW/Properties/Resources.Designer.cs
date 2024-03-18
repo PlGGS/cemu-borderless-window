@@ -19,7 +19,7 @@ namespace CBW.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -67,6 +67,41 @@ namespace CBW.Properties {
             get {
                 object obj = ResourceManager.GetObject("CBW", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Newtonsoft_Json {
+            get {
+                object obj = ResourceManager.GetObject("Newtonsoft_Json", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot;?&gt;
+        ///&lt;doc&gt;
+        ///    &lt;assembly&gt;
+        ///        &lt;name&gt;Newtonsoft.Json&lt;/name&gt;
+        ///    &lt;/assembly&gt;
+        ///    &lt;members&gt;
+        ///        &lt;member name=&quot;T:Newtonsoft.Json.Bson.BsonObjectId&quot;&gt;
+        ///            &lt;summary&gt;
+        ///            Represents a BSON Oid (object id).
+        ///            &lt;/summary&gt;
+        ///        &lt;/member&gt;
+        ///        &lt;member name=&quot;P:Newtonsoft.Json.Bson.BsonObjectId.Value&quot;&gt;
+        ///            &lt;summary&gt;
+        ///            Gets or sets the value of the Oid.
+        ///            &lt;/summary&gt;
+        ///            &lt;value&gt;The value of the Oid.&lt;/value&gt;
+        ///        &lt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Newtonsoft_Json1 {
+            get {
+                return ResourceManager.GetString("Newtonsoft_Json1", resourceCulture);
             }
         }
     }

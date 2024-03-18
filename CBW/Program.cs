@@ -1,56 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace CBW
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            bool borderlessWindow = false;
-            bool showMenuStrip = false;
-            string cemuDir = "";
+            string executableDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+            string cemuPath = Path.Combine(executableDirectory, "Cemu.exe");
 
-            if (args.Length % 2 == 0)
+            if (!File.Exists(cemuPath))
             {
-                for (int i = 0; i < args.Length; i++)
-                {
-                    switch (args[i])
-                    {
-                        case "-bw":
-                            borderlessWindow = Convert.ToBoolean(args[++i]);
-                            break;
-                        case "-sms":
-                            showMenuStrip = Convert.ToBoolean(args[++i]);
-                            break;
-                        case "-cemu":
-                            cemuDir = args[++i];
-                            break;
-                        case "-c":
-                            cemuDir = args[++i];
-                            break;
-                        default:
-                            break;
-                    }
-                }
+                MessageBox.Show("Cemu.exe was not found.", "Cemu Borderless Window");
+                Application.Exit();
+                return;
             }
             else
             {
-                MessageBox.Show("Please make sure all command line parameters have proper values after their references. Please surround executable locations with quotation marks if they contain spaces.", "Cemu Borderless Window");
-                Application.Exit();
-            }
+                bool borderlessWindow = false;
+                bool showMenuStrip = false;
 
-            Application.Run(new frmMain(borderlessWindow, showMenuStrip, cemuDir));
+                string configPath = Path.Combine(executableDirectory, "config.json");
+
+                if (File.Exists(configPath))
+                {
+                    string json = File.ReadAllText(configPath);
+                    var config = JsonHelper.DeserializeObject(json);
+
+                    borderlessWindow = config.borderlessWindow;
+                    showMenuStrip = config.showMenuStrip;
+                }
+                else
+                {
+                    var objetoJson = new
+                    {
+                        borderlessWindow = false,
+                        showMenuStrip = false
+                    };
+
+                    string json = JsonHelper.SerializeObject(objetoJson);
+                    File.WriteAllText(configPath, json);
+                }
+
+                Application.Run(new frmMain(borderlessWindow, showMenuStrip, cemuPath, configPath));
+            }
         }
     }
 }
